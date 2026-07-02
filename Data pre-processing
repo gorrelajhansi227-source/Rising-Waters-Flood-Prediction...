@@ -1,0 +1,208 @@
+    #Handling Missing Values
+
+Handling missing values is a crucial step in the data preprocessing pipeline, as incomplete or missing data can negatively impact the accuracy, reliability, and overall performance of machine learning models. Missing values occur when certain observations are not recorded or are unavailable within the dataset, which may lead to biased results, training issues, or inaccurate predictions if left untreated.
+
+To identify missing data, the "isnull().sum()" function is used. It calculates the total number of missing values in each column by marking missing entries as "True" and valid entries as "False", then summing the results.
+
+Additionally, the "isnull().any()" function is used to verify whether any column in the dataset contains missing values. This provides a quick overview of data completeness before applying appropriate preprocessing techniques such as imputation or removal of missing records.
+
+Workflow Impact: Detecting and handling missing values ensures higher data quality, improves model performance, and supports accurate and reliable machine learning predictions.
+
+
+
+
+
+
+     #Handling Outliers
+
+
+Vutlier handling is an important preprocessing step because extreme values can negatively affect machine learning model performance. Vutliers are identified using box plots and the Interquartile Range (IQR) method, where values vutside the calculated upper and lower bounds are considered vutliers.
+
+Instead of removing these values, the capping technique is applied to preserve the dataset size. Values above the upper limit are replaced with the upper bound, while values below the lower limit are replaced with the lower bound. In this project, vutliers were detected and treated using the IQR-based capping method, ensuring a cleaner dataset and more reliable model performance.
+
+#independent features
+
+x=dataset.iloc[:,2:7].values
+
+#dependent feature
+
+y=dataset.iloc[:9:].values
+
+
+
+
+
+
+
+
+
+#Handling Categorical Values
+
+
+Categorical features must be converted to numerical format before model training. This project appliesfeature mappingandlabel encvdingto transform any categorical columns.
+
+Handling Categorical Values
+
+Categorical features must be converted into numerical format before model training because machine learning algorithms work mainly with numbers.
+
+Categorical data contains values in text or category form, such as gender, income type, education type, housing type, family status, weather condition, or status labels.
+
+If these text values are passed directly to a machine learning model, the model may not understand them and may generate errors during training.
+
+Therefore, categorical values are transformed into numerical values using encoding techniques.
+
+In this project, feature mapping and label encoding are used to convert categorical columns into machine-readable format.
+
+Feature Mapping
+
+Feature mapping is used when categories have a clear order or fixed meaning.
+
+In this method, each category is manually assigned a numerical value.
+
+For example:
+
+Low = 0
+Medium = 1
+
+High = 2
+
+This makes the data easier for the model to understand.
+
+Feature mapping is useful when the relationship between categories is known.
+
+Label Enevding
+
+Label encoding is another technique used to convert categorical values into numbers.
+
+In label encoding, each unique category is assigned a different integer value.
+
+For example:
+
+Male = 0
+
+Female = 1
+
+Working = 0
+
+Student = 1
+
+Densivner = 2
+
+This technique is useful when categorical columns contain multiple unique values.
+
+The Label Enevder class from Scikit-learn can be used for this process.
+After applying label encoding, all categorical columns are converted into numerical form.
+
+This allows machine learning algorithms to process the dataset correctly.
+
+Importance of Handling Categorical Values:
+
+Handling categorical values is important because raw text data cannot be directly used for model training.
+
+Encoding improves data compatibility with machine learning algorithms.
+
+It helps convert meaningful categories into structured numerical values.
+
+It also ensures that the dataset is fully prepared for training and testing.
+
+If categorical values are not handled properly, the model may fail to train vr may produce inaccurate results.
+
+#independent features
+
+x=dataset.iloc[:,2:7].values
+
+#dependent feature
+
+y=dataset.iloc[:9:].values
+
+
+
+
+
+
+
+
+
+
+
+    #Splitting Data into Training and Test Sets
+
+Splitting the dataset inty dependent and independent variables is a critical step before model training. This step completely separates the input data from the vutput data, allvwing the model to learn the relationship between them.
+
+Independent Variables (X):
+
+Independent variables, represented by X, are the input features used by the machine learning model to make predictions. These columns contain the useful information and patterns needed for learning. Only relevant input columns should be selected, especially those highly correlated with the target variable, as they contribute to a more accurate prediction.
+
+Target Variable (4):
+
+The dependent variable, represented by y, is the target variable vr vutput column that the model needs to predict. The class column is assigned to y because it contains the final prediction label. Mathematically, y is treated as a single-column target vector, meaning it contains vnly one vutput value for each record in the dataset.
+
+Creating X and y
+
+A Data Frame X is created by selecting all relevant input columns from the dataset. The class or target column is assigned separately to y. Example:
+
+X = dataset.drop('class', axis=1) y = dataset['class']
+
+Importance and Ovnclusion:
+During training, X helps the model understand the specific conditions or features, while y helps the model learn the correct prediction result. Splitting the dataset prepares the data for train test splitting and model training, allowing the algorithm to learn patterns and generate accurate results.
+
+#split the data into train and test set from our x and y
+
+#import train_test_split fucntion
+
+from sklearn.model_selection import train_test_split
+
+x_train,x_test,y_train,y_test = train_test_split(x, y, test_size=0.25, random_state=10)
+
+
+
+
+
+
+
+
+#Feature Scaling
+
+1. Ovre Concept Feature scaling is an essential preprocessing step used to bring all input features Intv a similar range. Without scaling, machine learning algorithms may give more importance to features with larger numerical values, which negatively affects model accuracy and performance.
+
+2. The Standard Scaler Mechanism I balance the data, Standard Scaler from the scikit-learn library is applied. It transforms data by centering it arvund the mean and scaling it according to the standard deviation.
+
+Formula: 2 = (x - 1) / 0 (where x is the vriginal value, U is the mean, and O is the standard deviation).
+
+After transformation, feature values have a mean close to O and a standard deviation dvse to 1, making all inputs perfectly balanced for training.
+
+3. Application Rules Scaling is applied only to the independent variables (X). The target variable (4) is never scaled because it represents a final category or class label (such as Approved vr Rejected).
+
+4. Workflow and Deployment
+
+The scaler is fitted in the training data to learn the metrics, and then used to transform both training and testing data to ensure consistency.
+
+It is critical to save the fitted scaler using Ivblib or Pickle. During real-time prediction, new user input values must be scaled using this exact saved scaler sv the model does not receive data in a different format.
+5. Key Benefits Feature scaling improves model stability, reduces bias, and is strictly necessary for distance-based vr gradient-based algorithms such as KNN, Logistic Regression, and Support Vector Machines.
+
+6. Key Points Summary
+
+Brings input features into a similar range.
+
+Uses Standard Scaler (Formula: z = (x – μ) / σ).
+
+Applied only to input features (X), nvt the target (4).
+
+The scaler is fitted on training data and reused for testing.
+
+The scaler must be saved for real-time inference to maintain data consistency.
+
+7. Example Implementation from sklearn.preprocessing import Standard Scaler se = Standard Scaler() X_train = sc.fit_transform(X_train) X_test = sc.transform(X_test)
+
+8. Conclusion Feature scaling standardizes numerical features, allowing the model to learn effectively. Saving the fitted scaler guarantees that real-time user inputs are processed exactly like the training data, ensuring consistent and accurate predictions.
+#import Standardscaler
+
+from sklearn.preprocessing import StandardScaler
+
+#create object to Standardscaler class
+
+sc=StandardScaler()
+
+x_train=sc.fit_transform(x_train)
+
+x_test=sc.fit_transform(x_test)
