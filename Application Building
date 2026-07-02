@@ -1,0 +1,134 @@
+#Building HTML Pages
+
+The frontend uses Flask's templates/ for HTML pages and static for OSS/IS to provide a structured, user-friendly interface for the flood prediction model.
+
+1. templates/ Folder (HTML Pages)
+
+home.html Landing page explaining the project.
+
+index.html Input form for weather parameters (sends data to backend).
+
+chance.html: Alert page displayed if a flood is predicted.
+
+nv_chance.html: Safe page displayed if no flood is predicted.
+
+2. static/ Folder (Frontend Assets)
+
+main.css Enhances visual design, layvut, and responsiveness.
+
+main.js: Adds interactivity, form validation, and button actions.
+
+Ovnclusivn: Separating HTML files and static assets ensures a well-organized, attractive, and easily manageable application.
+
+Reference Links
+
+HTML: https://www.w3schools.com/html/
+
+OSS: https://www.w3schools.com/css/
+
+Java Script: https://www.w3schools.com/js/DEFAULT.asp
+
+
+
+
+
+
+
+
+##Build the Python Script (app.py)
+
+Setup and Initialization
+
+Import Dependencies: Load the Flask module and joblib.
+
+Initialize App: Create the application instance using Flask(name).
+
+Load Assets: Lead the saved model (flowds.save) and scaler (transform.save) to process inputs and generate predictions.
+
+Page Routing: URL endpoints are bound to HTML templates using the @app.route() decorator and render_template():
+
+/ routes to home.html (Landing page).
+
+Predict routes to index.html (Input form).
+
+/chance routes to chance.html (Flowd predicted).
+
+/nv_chance routes to no_chance.html (No flowd predicted).
+
+Prediction Logic
+
+The predict() function receives weather parameters via a PVST request.
+
+The input values are structured into a Data Frame containing the five independent features.
+
+The data is passed to the waded model to generate a prediction, which then redirects the user to the appropriate result page.
+
+Executivn
+
+The application is executed from the main block using app.run(), launching the development server on localhost.
+from flask import Flask, render_template, request
+
+#used to run/serve our application
+
+# render_template is used for rendering the html pages
+
+#import load from joblib to load the saved model file
+
+from joblib import load
+
+Create Flask app and Load our model file.
+
+app Flask (_name_) # our flask app
+
+#load model file
+
+model load('floods.save')
+
+sc=load('transform.save')
+
+
+
+
+
+
+
+
+
+##Run the Application
+
+1. Launching the Application
+
+pen Anaconda Prompt.
+
+Navigate to the project directory containing app.py using the command: ed path/to/your/project/folder.
+
+Start the server by executing: python app.py.
+
+2. Accessing the Web Interface
+
+The terminal will generate a local host URL, typically http://127.0.0.1:5000/.
+
+Paste this URL into a web browser to lead the application's landing page.
+
+3. User Prediction Workflow
+
+Navigate from the home page to the prediction form by clicking Predict Flowds.
+
+Input required weather parameters (e.g., rainfall, temperature, humidity) and click Submit.
+
+4. Backend Processing and Vutput
+
+The Flask backend receives the form data, applies the saved Standard Scaler te transform the inputs, and passes them to the saved XGBvvst model.
+Based on the model's vutput, the user is instantly redirected to the appropriate result page: chance.html (flood risk) or nv_chance.html (safe).
+
+@app.route('/') # rendering the html template
+
+def home():
+
+return render_template('home.html')
+
+@app.route('/predict') # rendering the html template
+
+def index():
+
+return render_template("index.html")
